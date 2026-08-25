@@ -1,6 +1,10 @@
 from rest_framework import serializers
-from .models import Film
+from .models import Film, Director
 
+class DirectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Director
+        exclude = 'birthday'. split()
 
 class FilmDetailSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,9 +12,12 @@ class FilmDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FilmListSerializer(serializers.ModelSerializer):
+    director = DirectorSerializer()
+    
     class Meta:
         model = Film
         # fields = [ 'id', 'title', 'rating', 'created_at']
         # fields = '__all__'
         # exclude = ['text', 'updated']
-        fields = 'id title rating created_at'.split()
+        fields = 'id title rating created_at director'.split()
+        # depth = 1
